@@ -8,16 +8,20 @@ Bangbot is an easily extensible python script for finding and testing passwords 
 Bots are the glue of the script. Each AbstractBot subclass can be outfitted with multiple page finders, multiple searchers and a tester. The idea is to be able to quickly assemble a new bot from canned components and be able to easily extend it as new searchers and scrapers become available. Every bot **must** extend from AbstractBot class and must set a self.sitename if they persist data to the database using dbsync.
 
 ### AbstractBot
+
 #### Methods
-*	**run()**	Tests each combination found by each scraper on each page found by each searcher and adds the working results to self.combinations
-*	**dbsync()**	Persists all combinations found by 'run' to the database. The default database file is bangbot.db
+
+*  **run()** - Tests each combination found by each scraper on each page found by each searcher and adds the working results to self.combinations
+*	**dbsync()** - Persists all combinations found by 'run' to the database. The default database file is bangbot.db
+
 #### Attributes
-*	*searchers*	List of searcher objects used by run
-*	*scrapers*	List of scraper objects used by run
-*	*tester*	Tester object used by run
-*	*connection*	Static variable that is a sqlite database connection. The default is bangbot.db
-*	*combinations*	Set of username/password combinations in the form (username,password)
-*	*sitename*	Name of the site that the bot is working on. Used as a column in the database to identify the site the combinations belong to.
+
+*	*searchers* - List of searcher objects used by run
+*	*scrapers* - List of scraper objects used by run
+*	*tester* - Tester object used by run
+*	*connection* - Static variable that is a sqlite database connection. The default is bangbot.db
+*	*combinations* - Set of username/password combinations in the form (username,password)
+*	*sitename* - Name of the site that the bot is working on. Used as a column in the database to identify the site the combinations belong to.
 
 ## Searchers
 
@@ -35,11 +39,12 @@ Testers test username and password combinations for validity. The test method sh
 
 ## Database Schema
 
-The database is an sqlite3 database file. It has five columns:
-*	id INT PRIMARY AUTO-INCREMENT
-*	username VARCHAR(50)
-*	passwords VARCHAR(50)
-*	site VARCHAR(50)
-*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP
+The database is an sqlite3 database file. It has five columns
+
+*	id INT PRIMARY AUTO-INCREMENT - The combination id
+*	username VARCHAR(50) - The username
+*	passwords VARCHAR(50) - The password
+*	site VARCHAR(50) - The sitename provided by the bot
+*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP - The last time this combination was tested
 
 Contact me at alex@heyimalex.com
