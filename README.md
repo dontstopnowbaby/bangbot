@@ -1,23 +1,23 @@
 # Bangbot
 Created By Alex Guerra
 
-Bangbot is an easily extensible python script for finding and testing passwords on the internet. It is largely composed of four types of classes that you'll need to extend in order to make it do what you want: Bots, Searchers, Scrapers, and Testers. Each of these types of classes is detailed below.
+Bangbot is an easily extensible python script for finding and testing passwords on the internet. It is largely composed of four types of classes that you'll need to extend in order to make it do what you want: Bots, Searchers, Scrapers, and Testers. Each of these types of classes is detailed below. A simple outline goes a bit like this: a searcher is an iterator that finds webpages that it thinks are likely to have passwords, a scraper takes those pages found by the searcher and searchers them for passwords, a tester takes all of the passwords found by the scraper and checks them for validity, and a bot encapsulates all of this logic (along with an easy way to store it after it's collected) in a couple of easy to use functions.
 
 ## Bots
 
 Bots are the glue of the script. Each AbstractBot subclass can be outfitted with multiple page finders, multiple searchers and a tester. The idea is to be able to quickly assemble a new bot from canned components and be able to easily extend it as new searchers and scrapers become available. Every bot **must** extend from AbstractBot class and must set a self.sitename if they persist data to the database using dbsync.
 
 ### AbstractBot
-
-*	**run()**: Tests each combination found by each scraper on each page found by each searcher and add the working results to self.combinations
-*	**dbsync()**: Persists all combinations found by 'run' to the database. The default database file is bangbot.db
-
-*	searchers:
-*	scrapers: 
-*	tester:
-*	connection:
-*	combinations:
-*	sitename: 
+#### Methods
+*	**run()**	Tests each combination found by each scraper on each page found by each searcher and adds the working results to self.combinations
+*	**dbsync()**	Persists all combinations found by 'run' to the database. The default database file is bangbot.db
+#### Attributes
+*	*searchers*	List of searcher objects used by run
+*	*scrapers*	List of scraper objects used by run
+*	*tester*	Tester object used by run
+*	*connection*	Static variable that is a sqlite database connection. The default is bangbot.db
+*	*combinations*	Set of username/password combinations in the form (username,password)
+*	*sitename*	Name of the site that the bot is working on. Used as a column in the database to identify the site the combinations belong to.
 
 ## Searchers
 
@@ -32,5 +32,14 @@ Scrapers take the html of webpages found by searchers and scrapes them for possi
 ## Testers
 
 Testers test username and password combinations for validity. The test method should take a username and password in the form of a tuple (username, password). For the most part, testers will have to be bespoke for the bot they're fitted to, though the BasicAuthTester class can cover many older sites still using http authentication quite easily.
+
+## Database Schema
+
+The database is an sqlite3 database file. It has five columns:
+*	id INT PRIMARY AUTO-INCREMENT
+*	username VARCHAR(50)
+*	passwords VARCHAR(50)
+*	site VARCHAR(50)
+*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP
 
 Contact me at alex@heyimalex.com
