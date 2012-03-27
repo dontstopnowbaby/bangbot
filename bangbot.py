@@ -1,25 +1,11 @@
-'''
-============================================
-	BANGBOT V2
-============================================
-
-Created By : Alex Guerra
-
-Bangbot V2 is an easily extensible script for finding and testing passwords on the internet.
-
-'''
-
 import urllib, urllib2, re, urlparse, cookielib, time
 from sqlite3 import dbapi2 as sqlite
 
-
-'''
-============================================
-	BOTS
-============================================
-
-Bots are the glue of the script. Each bot can be outfitted with multiple page finders, multiple searchers and a tester. The idea is to be able to quickly assemble a bot from canned components and be able to easily extend it as new searchers and scrapers become available. Every bot **must** extend from AbstractBot class and must set self.sitename if they persist data to the database using dbsync.
-'''
+"""
+=============================
+	Bots
+=============================
+"""
 
 class AbstractBot(object):
 
@@ -64,15 +50,11 @@ class AbstractBot(object):
 				cursor.execute('INSERT INTO combinations (username, password, site) VALUES (?, ?, ?)', (combination[0], combination[1], self.sitename))
 		connection.commit()
 		print 'Finished inserting {} combinations!'.format(len(self.combinations))
-
-
-''' 
-============================================
-	SEARCHERS
-============================================
-
-Searchers find and return webpages that they think are likely to have usernames and passwords. Searchers should be iterable; every time next is called you'll return the html contents of the next webpage you find. To reduce requests, webpages are cached using a static class variable 'cache' in AbstractSearcher. In order to make use of this cache, you **must** use the get_webpage function in order to grab the contents of a webpage.
-'''
+"""
+=============================
+	Searchers
+=============================
+"""
 
 class AbstractSearcher(object):
 
@@ -127,13 +109,11 @@ class GoogleSearcher(AbstractSearcher):
 		else:
 			raise StopIteration
 
-'''
-============================================
-	SCRAPERS
-============================================
-
-Scrapers take the html of webpages found by searchers and scrapes them for possible username/password combinations. Scrapers must return a set of tuples in the form (username, password). Tuples must be used instead of dicts because dicts are not hashable and sets can only take hashable items or something like that.
-'''
+"""
+=============================
+	Scrapers
+=============================
+"""
 
 class AbstractScraper(object):
 
@@ -154,13 +134,11 @@ class RegexScraper(AbstractScraper):
 		print 'Found {} combinations'.format(len(combinations))
 		return combinations
 
-''' 
-============================================
-	TESTERS
-============================================
-
-Testers test username and password combinations for validity. The test method should take a username and password in the form of a tuple (username, password). For the most part, testers will have to be bespoke for the bot they're fitted to, though the BasicAuthTester class can cover many older sites still using http authentication quite easily.
-'''
+"""
+=============================
+	Testers
+=============================
+"""
 
 class AbstractTester(object):
 
