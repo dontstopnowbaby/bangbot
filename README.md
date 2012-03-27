@@ -11,7 +11,7 @@ Bots are the glue of the script. Each AbstractBot subclass can be outfitted with
 
 #### Methods
 
-*  **run()** - Tests each combination found by each scraper on each page found by each searcher and adds the working results to self.combinations
+*	**run()** - Tests each combination found by each scraper on each page found by each searcher and adds the working results to self.combinations
 *	**dbsync()** - Persists all combinations found by 'run' to the database. The default database file is bangbot.db
 
 #### Attributes
@@ -41,10 +41,10 @@ Testers test username and password combinations for validity. The test method sh
 
 The database is an sqlite3 database file. It has five columns
 
-*	id INT PRIMARY AUTO-INCREMENT - The combination id
-*	username VARCHAR(50) - The username
-*	passwords VARCHAR(50) - The password
-*	site VARCHAR(50) - The sitename provided by the bot
-*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP - The last time this combination was tested
+*	id INT PRIMARY AUTO-INCREMENT
+*	username VARCHAR(50)
+*	passwords VARCHAR(50)
+*	site VARCHAR(50)
+*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP
 
 Contact me at alex@heyimalex.com
