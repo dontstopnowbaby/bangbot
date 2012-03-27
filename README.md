@@ -41,10 +41,10 @@ Testers test username and password combinations for validity. The test method sh
 
 The database is an sqlite3 database file. It has five columns
 
-*	id INT PRIMARY AUTO-INCREMENT
-*	username VARCHAR(50)
-*	passwords VARCHAR(50)
-*	site VARCHAR(50)
-*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP
+*	id INT PRIMARY AUTO-INCREMENT - The combination id
+*	username VARCHAR(50) - The username
+*	passwords VARCHAR(50) - The password
+*	site VARCHAR(50) - The sitename provided by the bot
+*	last_checked DATE_TIME DEFAULT CURRENT_TIMESTAMP - The last time this combination was tested
 
 Contact me at alex@heyimalex.com
